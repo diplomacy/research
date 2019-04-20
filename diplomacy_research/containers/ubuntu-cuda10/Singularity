@@ -1,0 +1,2 @@
+Bootstrap: docker
+From: pcpaquette/ubuntu-cuda10:20190226

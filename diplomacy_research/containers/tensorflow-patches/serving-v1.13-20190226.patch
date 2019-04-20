@@ -1,0 +1,35 @@
+From 7723227ea65272019fafaaa91d3087f5cbbe1796 Mon Sep 17 00:00:00 2001
+From: Philip Paquette <pcpaquette@gmail.com>
+Date: Thu, 26 Feb 2019 15:45:51 -0500
+Subject: [PATCH] 20190226 - Patching user_ops
+
+---
+ tensorflow_serving/repo.bzl | 12 +-----------
+ 1 file changed, 1 insertion(+), 11 deletions(-)
+
+diff --git a/tensorflow_serving/repo.bzl b/tensorflow_serving/repo.bzl
+index 21fb4cd..ed0c8a9 100644
+--- a/tensorflow_serving/repo.bzl
++++ b/tensorflow_serving/repo.bzl
+@@ -23,17 +23,7 @@ def _tensorflow_http_archive(ctx):
+     sha256 = ""
+     git_commit = override_git_commit
+ 
+-  strip_prefix = "tensorflow-%s" % git_commit
+-  urls = [
+-      "https://mirror.bazel.build/github.com/tensorflow/tensorflow/archive/%s.tar.gz" % git_commit,
+-      "https://github.com/tensorflow/tensorflow/archive/%s.tar.gz" % git_commit,
+-  ]
+-  ctx.download_and_extract(
+-      urls,
+-      "",
+-      sha256,
+-      "",
+-      strip_prefix)
++  ctx.symlink("/bazel/serving/tensorflow/", "")
+ 
+ tensorflow_http_archive = repository_rule(
+     implementation=_tensorflow_http_archive,
+-- 
+2.20.1
+

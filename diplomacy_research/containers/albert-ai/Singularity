@@ -1,0 +1,81 @@
+Bootstrap: docker
+From: ubuntu:18.04
+
+%runscript
+export BOT_NAME="$1"
+export BOT_HOST="$2"
+export BOT_PORT="$3"
+
+echo "----------------------------"
+echo "Trying to launch a $BOT_NAME bot that will connect to port $BOT_PORT"
+echo "----------------------------"
+
+# Detecting display
+export DISPLAY=:99
+if xhost >& /dev/null ; then
+    echo "... Successfully detected a display"
+else
+    echo "... Launching display :99"
+    Xvfb :99 -screen 0 1024x768x16 &
+fi
+
+# Finding path
+case "$BOT_NAME" in
+    albert)
+        export BOT_PATH="/data/albert/Albert.exe"
+        ;;
+
+    dumbbot)
+        export BOT_PATH="/data/dumbbot/DumbBot.exe"
+        ;;
+
+    *)
+        echo $"Usage: $0 {albert|dumbbot} {hostname} {port_number}"
+        exit 1
+esac
+
+# Launching and sleeping forever
+echo "Launching bot..."
+wine $BOT_PATH -i$BOT_HOST -p$BOT_PORT -h
+
+%environment
+export LANG=en_CA.UTF-8
+
+%labels
+AUTHOR pcpaquette@gmail.com
+
+%post
+
+# Installing
+apt-get -y update
+apt-get install -y software-properties-common wget unzip apt-transport-https
+echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections
+dpkg --add-architecture i386
+apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 76F1A20FF987672F
+apt-add-repository https://dl.winehq.org/wine-builds/ubuntu/
+apt-get update -y
+apt-get install -y --allow-unauthenticated winehq-stable xvfb x11-xserver-utils
+
+# Installing Albert
+mkdir -p /data/albert
+cd /data/albert
+wget -nv https://storage.googleapis.com/ppaquette-diplomacy/files/bots/albert.zip
+unzip albert.zip
+rm albert.zip
+
+# Install Dumbbot
+mkdir -p /data/dumbbot
+cd /data/dumbbot
+wget -nv https://storage.googleapis.com/ppaquette-diplomacy/files/bots/dumbbot.zip
+unzip dumbbot.zip
+rm dumbbot.zip
+
+# Redirecting sh to bash
+mv /bin/sh /bin/sh.old
+ln -s /bin/bash /bin/sh
+
+# Cleaning up
+chmod -R 777 /data
+apt-get clean
+apt-get autoclean
+rm -rf /var/lib/apt/lists/*

@@ -1,0 +1,142 @@
+# ==============================================================================
+# Copyright 2019 - Philip Paquette
+#
+# NOTICE:  Permission is hereby granted, free of charge, to any person obtaining
+#   a copy of this software and associated documentation files (the "Software"),
+#   to deal in the Software without restriction, including without limitation the
+#   rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+#   sell copies of the Software, and to permit persons to whom the Software is
+#   furnished to do so, subject to the following conditions:
+#
+#   The above copyright notice and this permission notice shall be included in all
+#   copies or substantial portions of the Software.
+# ==============================================================================
+""" Openings
+    - Contains a list of standard openings for each power
+"""
+def get_standard_openings(power_name):
+    """ Returns a list of standard openings for a given power"""
+    return {
+        'AUSTRIA': (
+            ['A BUD - SER', 'F TRI - ALB', 'A VIE - GAL'],
+            ['A BUD - SER', 'F TRI - ALB', 'A VIE - TRI'],
+            ['A BUD - SER', 'F TRI - ALB', 'A VIE - BUD'],
+            ['A BUD - SER', 'F TRI - VEN', 'A VIE - GAL'],
+            ['A BUD - SER', 'F TRI H', 'A VIE - GAL'],
+            ['A BUD - SER', 'F TRI H', 'A VIE - BUD'],
+            ['A BUD - RUM', 'F TRI - ALB', 'A VIE - GAL'],
+            ['A BUD - RUM', 'F TRI - ALB', 'A VIE - TRI'],
+            ['A BUD - SER', 'F TRI - ALB', 'A VIE H'],
+            ['A BUD - SER', 'F TRI - ALB', 'A VIE - TYR'],
+            ['A BUD - SER', 'F TRI - ADR', 'A VIE - TRI'],
+            ['A BUD - RUM', 'F TRI - ALB', 'A VIE - BUD'],
+            ['A BUD - SER', 'F TRI H', 'A VIE - TYR'],
+            ['A BUD - SER', 'F TRI - VEN', 'A VIE - BUD'],
+            ['A BUD - SER', 'F TRI H', 'A VIE H'],
+            ['A BUD - SER', 'F TRI - VEN', 'A VIE - TYR'],
+            ['A BUD - RUM', 'F TRI H', 'A VIE - GAL'],
+            ['A BUD - RUM', 'F TRI H', 'A VIE - BUD'],
+            ['A BUD - SER', 'F TRI S A VEN', 'A VIE - GAL'],
+            ['A BUD - GAL', 'F TRI - ALB', 'A VIE - TRI']),
+        'ENGLAND': (
+            ['F EDI - NWG', 'F LON - NTH', 'A LVP - YOR'],
+            ['F EDI - NWG', 'F LON - NTH', 'A LVP - EDI'],
+            ['F EDI - NTH', 'F LON - ENG', 'A LVP - YOR'],
+            ['F EDI - NTH', 'F LON - ENG', 'A LVP - WAL'],
+            ['F EDI - NWG', 'F LON - NTH', 'A LVP - WAL'],
+            ['F EDI - NTH', 'F LON - ENG', 'A LVP - EDI'],
+            ['F EDI - NWG', 'F LON - ENG', 'A LVP - WAL'],
+            ['F EDI - NTH', 'F LON H', 'A LVP - YOR'],
+            ['F EDI - NTH', 'F LON - ENG', 'A LVP H'],
+            ['F EDI - NWG', 'F LON - ENG', 'A LVP - YOR']),
+        'FRANCE': (
+            ['F BRE - MAO', 'A MAR - SPA', 'A PAR - BUR'],
+            ['F BRE - MAO', 'A MAR S A PAR - BUR', 'A PAR - BUR'],
+            ['F BRE - MAO', 'A MAR - SPA', 'A PAR - PIC'],
+            ['F BRE - ENG', 'A MAR - SPA', 'A PAR - PIC'],
+            ['F BRE - ENG', 'A MAR - SPA', 'A PAR - BUR'],
+            ['F BRE - MAO', 'A MAR - BUR', 'A PAR - PIC'],
+            ['F BRE - PIC', 'A MAR - SPA', 'A PAR - BUR'],
+            ['F BRE - MAO', 'A MAR H', 'A PAR - PIC'],
+            ['F BRE - ENG', 'A MAR S A PAR - BUR', 'A PAR - BUR'],
+            ['F BRE - MAO', 'A MAR - SPA', 'A PAR - GAS'],
+            ['F BRE - MAO', 'A MAR - BUR', 'A PAR - GAS'],
+            ['F BRE - ENG', 'A MAR - SPA', 'A PAR - GAS'],
+            ['F BRE - MAO', 'A MAR H', 'A PAR - BUR'],
+            ['F BRE - PIC', 'A MAR S A PAR - BUR', 'A PAR - BUR'],
+            ['F BRE - ENG', 'A MAR - BUR', 'A PAR - PIC'],
+            ['F BRE - MAO', 'A MAR - BUR', 'A PAR - BUR'],
+            ['F BRE - PIC', 'A MAR - SPA', 'A PAR - GAS']),
+        'GERMANY': (
+            ['A BER - KIE', 'F KIE - DEN', 'A MUN - RUH'],
+            ['A BER - KIE', 'F KIE - HOL', 'A MUN - RUH'],
+            ['A BER - KIE', 'F KIE - DEN', 'A MUN - BUR'],
+            ['A BER - KIE', 'F KIE - HOL', 'A MUN - BUR'],
+            ['A BER - KIE', 'F KIE - HOL', 'A MUN H'],
+            ['A BER - KIE', 'F KIE - DEN', 'A MUN H'],
+            ['A BER - SIL', 'F KIE - DEN', 'A MUN - RUH'],
+            ['A BER - KIE', 'F KIE - DEN', 'A MUN - TYR'],
+            ['A BER - MUN', 'F KIE - DEN', 'A MUN - RUH'],
+            ['A BER - PRU', 'F KIE - DEN', 'A MUN - SIL'],
+            ['A BER - KIE', 'F KIE - HOL', 'A MUN - TYR'],
+            ['A BER H', 'F KIE - DEN', 'A MUN - RUH'],
+            ['A BER - PRU', 'F KIE - DEN', 'A MUN - RUH'],
+            ['A BER - KIE', 'F KIE - BAL', 'A MUN - RUH'],
+            ['A BER - KIE', 'F KIE - DEN', 'A MUN - SIL']),
+        'ITALY': (
+            ['F NAP - ION', 'A ROM - VEN', 'A VEN - TYR'],
+            ['F NAP - ION', 'A ROM - APU', 'A VEN H'],
+            ['F NAP - ION', 'A ROM - VEN', 'A VEN - PIE'],
+            ['F NAP - ION', 'A ROM - NAP', 'A VEN H'],
+            ['F NAP - ION', 'A ROM - APU', 'A VEN - TRI'],
+            ['F NAP - ION', 'A ROM - VEN', 'A VEN - TRI'],
+            ['F NAP - ION', 'A ROM - APU', 'A VEN S F TRI'],
+            ['F NAP - ION', 'A ROM - APU', 'A VEN - PIE'],
+            ['F NAP - TYS', 'A ROM - VEN', 'A VEN - PIE'],
+            ['F NAP - TYS', 'A ROM - TUS', 'A VEN - PIE'],
+            ['F NAP - ION', 'A ROM - APU', 'A VEN - TYR'],
+            ['F NAP - TYS', 'A ROM - TUS', 'A VEN H'],
+            ['F NAP - ION', 'A ROM - TUS', 'A VEN H'],
+            ['F NAP - TYS', 'A ROM - VEN', 'A VEN - TYR'],
+            ['F NAP - TYS', 'A ROM H', 'A VEN H'],
+            ['F NAP - ION', 'A ROM - NAP', 'A VEN - TRI'],
+            ['F NAP - ION', 'A ROM - NAP', 'A VEN - PIE'],
+            ['F NAP - ION', 'A ROM H', 'A VEN H'],
+            ['F NAP - TYS', 'A ROM H', 'A VEN - PIE'],
+            ['F NAP - ION', 'A ROM - VEN', 'A VEN - APU'],
+            ['F NAP - ION', 'A ROM - TUS', 'A VEN - PIE']),
+        'RUSSIA': (
+            ['A MOS - UKR', 'F SEV - BLA', 'F STP/SC - BOT', 'A WAR - GAL'],
+            ['A MOS - UKR', 'F SEV - RUM', 'F STP/SC - BOT', 'A WAR - GAL'],
+            ['A MOS - STP', 'F SEV - BLA', 'F STP/SC - BOT', 'A WAR - UKR'],
+            ['A MOS - STP', 'F SEV - BLA', 'F STP/SC - BOT', 'A WAR - GAL'],
+            ['A MOS - UKR', 'F SEV - BLA', 'F STP/SC - BOT', 'A WAR H'],
+            ['A MOS - UKR', 'F SEV - RUM', 'F STP/SC - BOT', 'A WAR H'],
+            ['A MOS - STP', 'F SEV - RUM', 'F STP/SC - BOT', 'A WAR - UKR'],
+            ['A MOS - UKR', 'F SEV - BLA', 'F STP/SC - FIN', 'A WAR - GAL'],
+            ['A MOS - STP', 'F SEV - RUM', 'F STP/SC - BOT', 'A WAR - GAL'],
+            ['A MOS - SEV', 'F SEV - RUM', 'F STP/SC - BOT', 'A WAR - UKR'],
+            ['A MOS - SEV', 'F SEV - BLA', 'F STP/SC - BOT', 'A WAR - UKR'],
+            ['A MOS - UKR', 'F SEV - BLA', 'F STP/SC - BOT', 'A WAR - SIL'],
+            ['A MOS - SEV', 'F SEV - RUM', 'F STP/SC - BOT', 'A WAR - GAL'],
+            ['A MOS - SEV', 'F SEV - RUM', 'F STP/SC - BOT', 'A WAR H'],
+            ['A MOS - STP', 'F SEV - RUM', 'F STP/SC - BOT', 'A WAR H'],
+            ['A MOS - SEV', 'F SEV - ARM', 'F STP/SC - BOT', 'A WAR - UKR'],
+            ['A MOS - UKR', 'F SEV - RUM', 'F STP/SC - FIN', 'A WAR - GAL'],
+            ['A MOS - UKR', 'F SEV - RUM', 'F STP/SC - BOT', 'A WAR - SIL'],
+            ['A MOS - UKR', 'F SEV H', 'F STP/SC - BOT', 'A WAR - GAL'],
+            ['A MOS - UKR', 'F SEV H', 'F STP/SC - BOT', 'A WAR H'],
+            ['A MOS - WAR', 'F SEV - RUM', 'F STP/SC - BOT', 'A WAR - GAL'],
+            ['A MOS - UKR', 'F SEV - BLA', 'F STP/SC - BOT', 'A WAR - LVN'],
+            ['A MOS - LVN', 'F SEV - RUM', 'F STP/SC - BOT', 'A WAR H']),
+        'TURKEY': (
+            ['F ANK - BLA', 'A CON - BUL', 'A SMY - CON'],
+            ['F ANK - BLA', 'A CON - BUL', 'A SMY - ARM'],
+            ['F ANK - CON', 'A CON - BUL', 'A SMY - ANK'],
+            ['F ANK - CON', 'A CON - BUL', 'A SMY H'],
+            ['F ANK H', 'A CON - BUL', 'A SMY - CON'],
+            ['F ANK - CON', 'A CON - BUL', 'A SMY - ARM'],
+            ['F ANK - BLA', 'A CON - BUL', 'A SMY - ANK'],
+            ['F ANK - BLA', 'A CON - BUL', 'A SMY H'],
+            ['F ANK - ARM', 'A CON - BUL', 'A SMY - CON'])
+    }.get(power_name, ())

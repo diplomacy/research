@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+DIR=`python -c 'import diplomacy; print(diplomacy.__path__[0])'`
+
+# Setting env variables
+if [ -z ${NVM_DIR+x} ]; then
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+fi
+
+# Downloading and install NVM
+if [ ! -d "$HOME/.nvm" ]; then
+    curl -sL https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh -o install_nvm.sh
+    bash install_nvm.sh
+    rm -Rf install_nvm.sh
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+    nvm install v8.11.2
+    echo "Done installing NVM v0.33.8 and NodeJS v8.11.2"
+else
+    echo "NVM is already installed in ~/.nvm"
+fi
+
+# Installing dependencies
+if [ -d "$DIR/web/" ]; then
+    cd $DIR/web
+    rm -Rf node_modules
+    npm install .
+    npm install . --only=dev
+    cd -
+else
+    echo "Folder $DIR/web does not exists. Cannot install package.json"
+    exit 1
+fi

@@ -1,0 +1,18 @@
+Bootstrap: docker
+From: pcpaquette/tensorflow-serving:20190226
+
+%runscript
+cd /work_dir
+/data/serving/run_tf_serving.sh "$@"
+
+%environment
+export PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=cpp
+export PYTHONIOENCODING=utf-8
+export LANG=en_CA.UTF-8
+export PYTHONUNBUFFERED=1
+export PATH=/data/env3.7/bin:$PATH
+
+%labels
+AUTHOR pcpaquette@gmail.com
+
+%post

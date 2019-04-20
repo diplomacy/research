@@ -1,0 +1,25 @@
+# diplomacy_research
+bs4
+diplomacy==1.1.0
+grpcio==1.15.0
+grpcio-tools==1.15.0
+gym>=0.9.6
+h5py>=2.8.0
+html5lib
+hiredis
+numpy>=1.15,<1.16
+protobuf==3.6.1
+pymysql
+python-hostlist
+pytz
+pyyaml
+redis
+regex
+requests
+tabulate
+tensorflow==1.13.1
+tensorflow-probability==0.6.0-rc1
+toposort
+tornado>=5.0
+tqdm
+ujson

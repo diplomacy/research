@@ -1,0 +1,51 @@
+Bootstrap: docker
+From: ubuntu:18.04
+
+%runscript
+cd /work_dir
+if [ ! -f /work_dir/redis.conf ]; then
+    cp /data/redis.conf /work_dir/redis.conf
+fi
+echo "Use instance.start to start an instance."
+echo "Don't forget to bind the /work_dir"
+exec "$@"
+
+%startscript
+cd /work_dir
+if [ ! -f /work_dir/redis.conf ]; then
+    cp /data/redis.conf /work_dir/redis.conf
+fi
+echo "-----------------------------------" >> /work_dir/output.log
+nohup redis-server /work_dir/redis.conf >> /work_dir/output.log 2>&1
+
+%setup
+cp ./redis.conf ${SINGULARITY_ROOTFS}/redis.conf
+
+%environment
+export WORKING_DIR=/work_dir
+export HOME="${HOME:-/work_dir}"
+export PYTHONIOENCODING=utf-8
+export LANG=en_CA.UTF-8
+
+%labels
+AUTHOR pcpaquette@gmail.com
+
+%post
+mkdir -p /data
+mkdir -p /work_dir
+mv /redis.conf /data/redis.conf
+apt-get -y update
+apt-get install -y software-properties-common
+add-apt-repository -y ppa:chris-lea/redis-server
+apt-get -y update
+apt-get install -y redis-server
+
+chmod -R 777 /data
+chmod -R 777 /work_dir
+echo vm.overcommit_memory = 1 >> /etc/sysctl.conf
+sysctl vm.overcommit_memory=1
+
+# Cleaning up
+apt-get clean
+apt-get autoclean
+rm -rf /var/lib/apt/lists/*

@@ -1,0 +1,94 @@
+// ==============================================================================
+// Copyright 2019 - Philip Paquette
+//
+// NOTICE:  Permission is hereby granted, free of charge, to any person obtaining
+//   a copy of this software and associated documentation files (the "Software"),
+//   to deal in the Software without restriction, including without limitation the
+//   rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+//   sell copies of the Software, and to permit persons to whom the Software is
+//   furnished to do so, subject to the following conditions:
+//
+//   The above copyright notice and this permission notice shall be included in all
+//   copies or substantial portions of the Software.
+// ==============================================================================
+syntax = "proto3";
+package diplomacy_proto;
+import "diplomacy_proto/common.proto";
+option cc_enable_arenas = true;
+
+message Message {
+    string sender = 1;                  // Power sending the message or SYSTEM
+    string recipient = 2;               // Power the message or GLOBAL
+    int64 time_sent = 3;                // Timestamp where the message was sent
+    string phase = 4;                   // Phase name (e.g. 'S1901M')
+    string message = 5;                 // Actual message
+    repeated uint32 tokens = 6 [packed = true];     // Token representation of message with BOM and EOM
+}
+
+message State {
+    message Builds {
+        int32 count = 1;
+        repeated string homes = 2;
+    }
+
+    string game_id = 1;                             // The game id
+    string name = 2;                                // Phase name (e.g. 'S1901M')
+    string map = 3;                                 // Name of the map played (e.g. 'standard')
+    string zobrist_hash = 13;                       // Unique hash of the game state
+    repeated string rules = 4;                      // List of rules
+    map<string, StringList> units = 5;              // Dict of units for each power
+    map<string, StringList> centers = 6;            // Dict of centers for each power
+    map<string, StringList> homes = 7;              // Dict of homes for each power
+    map<string, StringList> influence = 8;          // Dict of influence for each power
+    map<string, int32> civil_disorder = 9;          // Dict of civil disorder for each power
+    map<string, Builds> builds = 10;                // Dict of build counts and build locs for each power
+    string note = 11;                               // Note to be displayed on the rendered map
+    repeated uint32 board_state = 12 [packed = true];   // Flatten representation of board_state
+}
+
+message PhaseHistory {
+    message PolicyDetails {
+        repeated string locs = 1;                       // List of locs where orders were issued (e.g. BRE, WAIVE_0)
+        repeated int32 tokens = 2;                      // List of tokens outputted by the model
+        repeated float log_probs = 3 [packed = true];   // List of log probs for each token outputted
+        bool draw_action = 4;                           // Whether player wanted to accept a draw or not
+        float draw_prob = 5;                            // The model's probability of doing accepting a draw
+    }
+
+    string name = 1;
+    State state = 2;
+    map<string, StringList> orders = 3;
+    map<string, StringList> results = 4;
+
+    map<string, PolicyDetails> policy = 6;
+    repeated uint32 prev_orders_state = 8 [packed = true];  // Flatten representation of prev_orders_state (M phases)
+    map<string, float> state_value = 9;                     // Value of this state for each power
+    map<string, StringList> possible_orders = 7;            // List of possible orders for each power
+}
+
+message SavedGame {
+    message KeywordArgs {
+        reserved 4;                                 // [DEPRECATED] 4 = model_name
+        int32 player_seed = 1;                      // The player seed used by this power
+        float noise = 2;                            // The noise level used by this power
+        float temperature = 3;                      // The temperature used by this power
+        float dropout_rate = 5;                     // The dropout rate used by this power
+    }
+
+    string id = 1;
+    string map = 2;
+    repeated string rules = 3;
+    repeated PhaseHistory phases = 4;
+    string done_reason = 6;                         // Reason why game was ended.
+
+    repeated string assigned_powers = 5;            // List of assigned powers (RL player should be at position 0)
+    repeated string players = 11;                   // List of player names (same length as assigned_powers)
+    map<string, KeywordArgs> kwargs = 10;           // Settings used by each power.
+
+    bool is_partial_game = 12;                      // Indicates that this is a partial game
+    int32 start_phase_ix = 9;                       // For partial traj, the ix of the first phase to use for learning.
+
+    string reward_fn = 7;                           // Name of the reward function used to compute rewards
+    map<string, FloatList> rewards = 8;             // List of rewards (no penalty) for each transition for each power
+    map<string, FloatList> returns = 13;            // List of returns for each transition for each power
+}
