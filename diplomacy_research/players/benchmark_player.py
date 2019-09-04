@@ -36,8 +36,8 @@ MAX_SENTINEL_CHECKS = 3
 MAX_TIME_BETWEEN_CHECKS = 300
 
 
-class NeurIPS2019SLPlayer(ModelBasedPlayer):
-    """ NeurIPS 2019 Supervised Learning Benchmark Player """
+class DipNetSLPlayer(ModelBasedPlayer):
+    """ DipNet SL - NeurIPS 2019 Supervised Learning Benchmark Player """
 
     def __init__(self, temperature=0.1, use_beam=False, port=9501, name=None):
         """ Constructor
@@ -61,13 +61,13 @@ class NeurIPS2019SLPlayer(ModelBasedPlayer):
         policy_adapter = sl_neurips2019.PolicyAdapter(grpc_dataset)
 
         # Building benchmark model
-        super(NeurIPS2019SLPlayer, self).__init__(policy_adapter=policy_adapter,
-                                                  temperature=temperature,
-                                                  use_beam=use_beam,
-                                                  name=name)
+        super(DipNetSLPlayer, self).__init__(policy_adapter=policy_adapter,
+                                             temperature=temperature,
+                                             use_beam=use_beam,
+                                             name=name)
 
-class NeurIPS2019RLPlayer(ModelBasedPlayer):
-    """ NeurIPS 2019 Reinforcement Learning Benchmark Player """
+class DipNetRLPlayer(ModelBasedPlayer):
+    """ DipNet RL - NeurIPS 2019 Reinforcement Learning Benchmark Player """
 
     def __init__(self, temperature=0.1, use_beam=False, port=9502, name=None):
         """ Constructor
@@ -91,10 +91,10 @@ class NeurIPS2019RLPlayer(ModelBasedPlayer):
         policy_adapter = rl_neurips2019.PolicyAdapter(grpc_dataset)
 
         # Building benchmark model
-        super(NeurIPS2019RLPlayer, self).__init__(policy_adapter=policy_adapter,
-                                                  temperature=temperature,
-                                                  use_beam=use_beam,
-                                                  name=name)
+        super(DipNetRLPlayer, self).__init__(policy_adapter=policy_adapter,
+                                             temperature=temperature,
+                                             use_beam=use_beam,
+                                             name=name)
 
 class WebDiplomacyPlayer(ModelBasedPlayer):
     """ WebDiplomacy Player """

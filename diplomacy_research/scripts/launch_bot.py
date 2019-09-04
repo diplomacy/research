@@ -24,7 +24,7 @@ import logging
 from diplomacy import connect
 from diplomacy.utils import constants, exceptions, strings
 from tornado import gen, ioloop
-from diplomacy_research.players.benchmark_player import NeurIPS2019SLPlayer
+from diplomacy_research.players.benchmark_player import DipNetSLPlayer
 
 LOGGER = logging.getLogger('diplomacy_research.scripts.launch_bot')
 PERIOD_SECONDS = 2
@@ -66,7 +66,7 @@ class Bot():
         """ Main bot code. """
 
         # Creating player
-        self.player = NeurIPS2019SLPlayer()
+        self.player = DipNetSLPlayer()
 
         # Connecting to server
         connection = yield connect(self.host, self.port)

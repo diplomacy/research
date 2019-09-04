@@ -90,7 +90,7 @@ $ python diplomacy_research/models/policy/order_based/train.py --model_id 12
 
 ### Playing against the SL and RL agents
 
-It is possible to play against the published results by using the `NeurIPS2019SLPlayer` and `NeurIPS2019RLPlayer` players in `diplomacy_research.players.benchmark_player`.
+It is possible to play against the published results by using the `DipNetSLPlayer` and `DipNetRLPlayer` players in `diplomacy_research.players.benchmark_player`.
 
 These players will automatically download a singularity container with the trained weights, and then launch a TF serving server to handle the requests.
 
@@ -101,13 +101,13 @@ from tornado import gen
 import ujson as json
 from diplomacy import Game
 from diplomacy.utils.export import to_saved_game_format
-from diplomacy_research.players.benchmark_player import NeurIPS2019SLPlayer
+from diplomacy_research.players.benchmark_player import DipNetSLPlayer
 from diplomacy_research.utils.cluster import start_io_loop, stop_io_loop
 
 @gen.coroutine
 def main():
     """ Plays a local game with 7 bots """
-    player = NeurIPS2019SLPlayer()
+    player = DipNetSLPlayer()
     game = Game()
 
     # Playing game
