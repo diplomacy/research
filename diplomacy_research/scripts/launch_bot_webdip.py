@@ -128,20 +128,22 @@ class WebDipBot():
             return
 
         # Querying the model for object
-        player = self.get_player(game)
+        player = self.get_player(game, power_name)
         if player is None:
             LOGGER.error('Unable to retrieve the player for map %s.', game.map_name)
             return
         orders = yield player.get_orders(game, power_name)
+        orders = self.adjust_orders(orders, game, power_name)
 
         # Submitting orders
         success = yield api.set_orders(game, power_name, orders, wait=False)
         if not success:
             self.add_error(game_id, country_id)
 
-    def get_player(self, game):
+    def get_player(self, game, power_name):
         """ Returns the player to query the orders
             :param game: A game instance
+            :param power_name: The name of the power we are playing
             :type game: diplomacy.Game
             :return: A player object to query the orders
         """
@@ -150,7 +152,7 @@ class WebDipBot():
         if game.map_name == 'standard':
             if game.get_current_phase() in ('S1901M', 'F1901M'):    # To get a diverse set of openings
                 return self.players['beam_0.50']
-            if self.game_stuck_in_local_optimum(game):              # In case the bot gets stuck
+            if self.game_stuck_in_local_optimum(game, power_name):  # In case the bot gets stuck
                 return self.players['beam_0.50']
             return self.players['greedy']                           # Greedy by default
 
@@ -166,14 +168,15 @@ class WebDipBot():
         return None
 
     @staticmethod
-    def game_stuck_in_local_optimum(game):
+    def game_stuck_in_local_optimum(game, power_name):
         """ Determines if the bots are stuck in a local optimum, to avoid endless loops
             :param game: A game instance
+            :param power_name: The name of the power we are playing
             :type game: diplomacy.Game
             :return: A boolean that indicates if a local optimum has been detected.
         """
-        # 1) A local optimum can only be detected on the standard map
-        if game.map_name != 'standard':
+        # 1) A local optimum can only be detected on the standard map for a valid power
+        if game.map_name != 'standard' or power_name not in game.powers:
             return False
 
         # 2) A local optimum can only happen if a power has 13 or more supply centers
@@ -182,6 +185,10 @@ class WebDipBot():
 
         # 3) A local optimum can only happen for an active game
         if game.get_current_phase() == 'COMPLETED':
+            return False
+
+        # 4) A local optimum can not happen if the power has the most supply centers
+        if len(game.powers[power_name].centers) == max([len(power.centers) for power in game.powers.values()]):
             return False
 
         # Building a list of units at the start of the last phase of each year for each power
@@ -199,11 +206,11 @@ class WebDipBot():
         units[current_year] = {power_name: set(game.get_units(power_name)) for power_name in game.powers}
 
         # Checking if powers have not moved unit in the last 3 years
-        nb_powers_stuck = 0
-        for power_name in game.powers:
-            units_yr_0 = units.get(current_year, {}).get(power_name, set([]))
-            units_yr_1 = units.get(current_year - 1, {}).get(power_name, set([]))
-            units_yr_2 = units.get(current_year - 2, {}).get(power_name, set([]))
+        powers_stuck = set()
+        for pow_name in game.powers:
+            units_yr_0 = units.get(current_year, {}).get(pow_name, set())
+            units_yr_1 = units.get(current_year - 1, {}).get(pow_name, set())
+            units_yr_2 = units.get(current_year - 2, {}).get(pow_name, set())
 
             # Power can only be stuck if it still has units on the board
             if not units_yr_0:
@@ -211,10 +218,35 @@ class WebDipBot():
 
             # Power is stuck if (yr_0 == yr_1 and yr_1 == yr_2)
             if units_yr_0 == units_yr_1 == units_yr_2:
-                nb_powers_stuck += 1
+                powers_stuck.add(pow_name)
 
-        # 4) A local optimum can only happen if 2 or more powers are stuck (same units in the last 3 years)
-        return bool(nb_powers_stuck >= 2)
+        # 5) A local optimum can only happen if 2 or more powers are stuck (same units in the last 3 years)
+        return bool(len(powers_stuck) >= 2 and power_name in powers_stuck)
+
+    @staticmethod
+    def adjust_orders(orders, game, power_name):
+        """ Performs manual order adjustments to remove edge case scenarios
+            :param orders: The list of orders to submit
+            :param game: A game instance
+            :param power_name: The name of the power we are playing
+            :type game: diplomacy.Game
+            :return: The adjusted list of orders
+        """
+        del game, power_name            # Unused args
+        adjusted_orders = []
+        retreat_locs = set()
+
+        # 1) Only allow one retreat to a given location, convert the others to disband
+        for order in orders:
+            if ' R ' in order:
+                unit, dest = order.split(' R ')
+                if dest in retreat_locs:
+                    order = '%s D' % unit
+                retreat_locs.add(dest)
+            adjusted_orders.append(order)
+
+        # Returning adjusted orders
+        return adjusted_orders
 
     def add_error(self, game_id, country_id):
         """ Marks a request as a failure, to throttle if too many failures are detected in a period of time
@@ -258,6 +290,7 @@ def main():
             io_loop.run_sync(bot.run)
         except KeyboardInterrupt:
             LOGGER.error('Bot interrupted.')
+            break
         except Exception as exc:                                                         # pylint: disable=broad-except
             print('--------------------------------------------------------------------------------')
             LOGGER.error(exc)

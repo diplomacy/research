@@ -510,8 +510,8 @@ def get_orderable_locs_for_powers(state_proto, powers, shuffled=False):
 
     # Detecting orderable locations for each top victor
     # Not storing coasts for orderable locations
-    all_orderable_locs = set([])
-    orderable_locs = {power_name: set([]) for power_name in powers}
+    all_orderable_locs = set()
+    orderable_locs = {power_name: set() for power_name in powers}
     for power_name in powers:
 
         # Adding build locations
