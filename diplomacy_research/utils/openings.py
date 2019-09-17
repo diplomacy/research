@@ -14,6 +14,8 @@
 """ Openings
     - Contains a list of standard openings for each power
 """
+from numpy.random import choice
+
 def get_standard_openings(power_name):
     """ Returns a list of standard openings for a given power"""
     return {
@@ -140,3 +142,94 @@ def get_standard_openings(power_name):
             ['F ANK - BLA', 'A CON - BUL', 'A SMY H'],
             ['F ANK - ARM', 'A CON - BUL', 'A SMY - CON'])
     }.get(power_name, ())
+
+def get_orders_from_gunboat_openings(power_name):
+    """ Samples openings orders from the gunboat openings
+        :param power_name: The name of the power we are playing
+        :return: A list of opening orders for that power
+    """
+    gunboat_openings = {'AUSTRIA': {('A VIE - GAL', 'F TRI - ALB', 'A BUD - SER'): 6868,
+                                    ('A VIE - TRI', 'F TRI - ALB', 'A BUD - SER'): 3033,
+                                    ('A VIE - BUD', 'F TRI - ALB', 'A BUD - SER'): 1153,
+                                    ('A VIE - GAL', 'F TRI - VEN', 'A BUD - SER'): 1969,
+                                    ('A VIE - TYR', 'F TRI - VEN', 'A BUD - GAL'): 1615,
+                                    ('A VIE - TYR', 'F TRI - ALB', 'A BUD - GAL'): 1513,
+                                    ('A VIE - TYR', 'F TRI - ALB', 'A BUD - TRI'): 976,
+                                    ('A VIE - GAL', 'F TRI H', 'A BUD - SER', ): 741,
+                                    ('A VIE - TYR', 'F TRI - VEN', 'A BUD - RUM'): 535,
+                                    ('A VIE - GAL', 'F TRI S A VEN', 'A BUD - SER'): 511},
+
+                        'ENGLAND': {('F EDI - NWG', 'F LON - NTH', 'A LVP - YOR'): 6685,
+                                    ('F EDI - NWG', 'F LON - NTH', 'A LVP - EDI'): 5647,
+                                    ('F EDI - NTH', 'F LON - ENG', 'A LVP - YOR'): 4683,
+                                    ('F EDI - NTH', 'F LON - ENG', 'A LVP - WAL'): 1744,
+                                    ('F EDI - NTH', 'F LON - ENG', 'A LVP H'): 85,
+                                    ('F EDI - NTH', 'F LON - ENG', 'A LVP - EDI'): 350,
+                                    ('F EDI - NWG', 'F LON - NTH', 'A LVP - WAL'): 314,
+                                    ('F EDI - NWG', 'F LON - ENG', 'A LVP - WAL'): 114,
+                                    ('F EDI - NWG', 'F LON - ENG', 'A LVP - EDI'): 159,
+                                    ('F EDI - NWG', 'F LON - ENG', 'A LVP - YOR'): 126},
+
+                        'FRANCE': {('F BRE - MAO', 'A PAR - BUR', 'A MAR - SPA'): 4071,
+                                   ('F BRE - MAO', 'A PAR - PIC', 'A MAR - SPA'): 1757,
+                                   ('F BRE - MAO', 'A PAR - BUR', 'A MAR S A PAR - BUR'): 5298,
+                                   ('F BRE - ENG', 'A PAR - PIC', 'A MAR - SPA'): 1128,
+                                   ('F BRE - MAO', 'A PAR - PIC', 'A MAR - BUR'): 2277,
+                                   ('F BRE - ENG', 'A PAR - BUR', 'A MAR S A PAR - BUR'): 1163,
+                                   ('F BRE - MAO', 'A PAR - GAS', 'A MAR - BUR'): 939,
+                                   ('F BRE - MAO', 'A PAR - BUR', 'A MAR - PIE'): 1029,
+                                   ('F BRE - ENG', 'A PAR - PIC', 'A MAR - BUR'): 2736,
+                                   ('F BRE - ENG', 'A PAR - BUR', 'A MAR - SPA'): 1904,
+                                   ('F BRE - ENG', 'A PAR - BUR', 'A MAR - PIE'): 1121},
+
+                        'GERMANY': {('F KIE - DEN', 'A MUN - RUH', 'A BER - KIE'): 8054,
+                                    ('F KIE - HOL', 'A MUN - RUH', 'A BER - KIE'): 3607,
+                                    ('F KIE - DEN', 'A MUN - BUR', 'A BER - KIE'): 3295,
+                                    ('F KIE - HOL', 'A MUN - BUR', 'A BER - KIE'): 1229,
+                                    ('F KIE - DEN', 'A MUN - RUH', 'A BER - SIL'): 284,
+                                    ('F KIE - HOL', 'A MUN - TYR', 'A BER - SIL'): 2095,
+                                    ('F KIE - DEN', 'A MUN H', 'A BER - KIE'): 439,
+                                    ('F KIE - HOL', 'A MUN H', 'A BER - KIE'): 326,
+                                    ('F KIE - HOL', 'A MUN - BUR', 'A BER - SIL'): 315,
+                                    ('F KIE - DEN', 'A MUN - TYR', 'A BER - KIE'): 311},
+
+                        'ITALY': {('F NAP - ION', 'A ROM - VEN', 'A VEN - TYR'): 5459,
+                                  ('F NAP - ION', 'A ROM - APU', 'A VEN H'): 3048,
+                                  ('F NAP - ION', 'A ROM - VEN', 'A VEN - PIE'): 2095,
+                                  ('F NAP - ION', 'A ROM - NAP', 'A VEN H'): 775,
+                                  ('F NAP - TYS', 'A ROM - VEN', 'A VEN - PIE'): 592,
+                                  ('F NAP - ION', 'A ROM - APU', 'A VEN - TRI'): 865,
+                                  ('F NAP - ION', 'A ROM - VEN', 'A VEN - TRI'): 1655,
+                                  ('F NAP - ION', 'A ROM - APU', 'A VEN - TYR'): 1712,
+                                  ('F NAP - ION', 'A ROM - APU', 'A VEN S F TRI'): 1924,
+                                  ('F NAP - ION', 'A ROM - APU', 'A VEN - PIE'): 826},
+
+                        'RUSSIA': {('F STP/SC - BOT', 'A MOS - UKR', 'A WAR - GAL', 'F SEV - BLA'): 9926,
+                                   ('F STP/SC - BOT', 'A MOS - UKR', 'A WAR - GAL', 'F SEV - RUM'): 970,
+                                   ('F STP/SC - BOT', 'A MOS - STP', 'A WAR - UKR', 'F SEV - BLA'): 1231,
+                                   ('F STP/SC - BOT', 'A MOS - UKR', 'A WAR H', 'F SEV - BLA'): 498,
+                                   ('F STP/SC - BOT', 'A MOS - STP', 'A WAR - UKR', 'F SEV - RUM'): 280,
+                                   ('F STP/SC - BOT', 'A MOS - STP', 'A WAR - GAL', 'F SEV - BLA'): 1260,
+                                   ('F STP/SC - BOT', 'A MOS - UKR', 'A WAR H', 'F SEV - RUM'): 414,
+                                   ('F STP/SC - BOT', 'A MOS - STP', 'A WAR - GAL', 'F SEV - RUM'): 302,
+                                   ('F STP/SC - FIN', 'A MOS - UKR', 'A WAR - GAL', 'F SEV - BLA', ): 934,
+                                   ('F STP/SC - BOT', 'A MOS - SEV', 'A WAR - GAL', 'F SEV - RUM'): 363},
+
+                        'TURKEY': {('F ANK - BLA', 'A SMY - CON', 'A CON - BUL'): 12382,
+                                   ('F ANK - BLA', 'A SMY - ARM', 'A CON - BUL'): 4927,
+                                   ('F ANK - CON', 'A SMY H', 'A CON - BUL'): 450,
+                                   ('F ANK - CON', 'A SMY - ANK', 'A CON - BUL'): 1144,
+                                   ('F ANK H', 'A SMY - CON', 'A CON - BUL'): 258,
+                                   ('F ANK - CON', 'A SMY - ARM', 'A CON - BUL'): 477,
+                                   ('F ANK - BLA', 'A SMY - ANK', 'A CON - BUL'): 165,
+                                   ('F ANK - BLA', 'A SMY H', 'A CON - BUL'): 138,
+                                   ('F ANK - ARM', 'A SMY - CON', 'A CON - BUL'): 133,
+                                   ('F ANK S F SEV - BLA', 'A SMY - CON', 'A CON - BUL'): 91}}
+
+    # Sampling for distribution
+    if power_name not in gunboat_openings:
+        return []
+    orders, counts = list(gunboat_openings[power_name]), list(gunboat_openings[power_name].values())
+    probs = [float(count) / sum(counts) for count in counts]
+    order_ix = choice(range(len(orders)), size=1, p=probs)[0]
+    return list(orders[order_ix])
