@@ -157,3 +157,14 @@ The 1v6 and 6v1 games played between DipNet SL and Albert (DAIDE) can be downloa
 
 - List of games with power assignments [Download - 53KB](https://f002.backblazeb2.com/file/ppaquette-public/benchmarks/experiments/daide_albert_results.xlsx)
 - Visualisation of each game (svg and json) [Download - 2.3GB](https://f002.backblazeb2.com/file/ppaquette-public/benchmarks/experiments/daide_albert_games.zip)
+
+### Citation
+```
+@inproceedings{paquette2019no,
+  title={No-Press Diplomacy: Modeling Multi-Agent Gameplay},
+  author={Paquette, Philip and Lu, Yuchen and BOCCO, SETON STEVEN and Smith, Max and Satya, O-G and Kummerfeld, Jonathan K and Pineau, Joelle and Singh, Satinder and Courville, Aaron C},
+  booktitle={Advances in Neural Information Processing Systems},
+  pages={4476--4487},
+  year={2019}
+}
+```
