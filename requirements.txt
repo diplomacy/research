@@ -17,7 +17,7 @@ redis
 regex
 requests
 tabulate
-tensorflow==1.13.1
+tensorflow==2.7.2
 tensorflow-probability==0.6.0-rc1
 toposort
 tornado>=5.0
