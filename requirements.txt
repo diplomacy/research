@@ -8,7 +8,7 @@ h5py>=2.8.0,<2.10.0
 html5lib
 hiredis
 numpy>=1.15,<1.16
-protobuf==3.6.1
+protobuf==3.18.3
 pymysql
 python-hostlist
 pytz
