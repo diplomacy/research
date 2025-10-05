@@ -46,7 +46,7 @@ class DipNetSLPlayer(ModelBasedPlayer):
             :param port: The port to use for the tf serving to query the model.
             :param name: Optional. The name of this player.
         """
-        model_url = 'https://f002.backblazeb2.com/file/ppaquette-public/benchmarks/neurips2019-sl_model.zip'
+        model_url = 'https://ewr1.vultrobjects.com/ppaquette-public/diplomacy/benchmarks/neurips2019-sl_model.zip'
 
         # Creating serving if port is not open
         if not is_port_opened(port):
@@ -76,7 +76,7 @@ class DipNetRLPlayer(ModelBasedPlayer):
             :param port: The port to use for the tf serving to query the model.
             :param name: Optional. The name of this player.
         """
-        model_url = 'https://f002.backblazeb2.com/file/ppaquette-public/benchmarks/neurips2019-rl_model.zip'
+        model_url = 'https://ewr1.vultrobjects.com/ppaquette-public/diplomacy/benchmarks/neurips2019-rl_model.zip'
 
         # Creating serving if port is not open
         if not is_port_opened(port):
