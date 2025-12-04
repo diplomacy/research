@@ -18,7 +18,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Dataset
 
-The model was trained by using a dataset of 156,468 games ([download here](https://ewr1.vultrobjects.com/ppaquette-public/diplomacy/benchmarks/datasets/diplomacy-dataset.zip)), which consists of:
+The model was trained by using a dataset of 156,468 games ([download here](https://s3-public.billovia.com/diplomacy/benchmarks/datasets/diplomacy-dataset.zip)), which consists of:
 
 - 16,633 games on non-standard maps (e.g. modern and ancmed) (other_maps.jsonl)
 - 33,279 no-press games on the standard map (standard_no_press.jsonl)
@@ -140,15 +140,15 @@ python diplomacy_research/scripts/launch_bot.py
 
 To facilitate reproducibility, the experiments can be downloaded using the following links. These include hyperparameters, tensorboard graphs, output logs, and weights for each epoch.
 
-- Order based LSTM model (order-based v12 - Accuracy of 61.3% - **DipNet SL**) [Download - 5.4GB](https://ewr1.vultrobjects.com/ppaquette-public/diplomacy/benchmarks/experiments/order-based-lstm.zip)
-- Order based Transformer model (order-based v15 - Accuracy of 60.7%) [Download - 8.2GB](https://ewr1.vultrobjects.com/ppaquette-public/diplomacy/benchmarks/experiments/order-based-trsf.zip)
-- Token based LSTM model (token-based v10 - Accuracy of 60.3%) [Download - 6.0GB](https://ewr1.vultrobjects.com/ppaquette-public/diplomacy/benchmarks/experiments/token-based-lstm.zip)
-- Token based Transformer model (token-based v11 - Accuracy of 58.9%) [Download - 3.5GB](https://ewr1.vultrobjects.com/ppaquette-public/diplomacy/benchmarks/experiments/token-based-trsf.zip)
-- RL Model (Bootstrapped from order-based v12 and value v1 - **DipNet RL**) [Download - 11.1GB](https://ewr1.vultrobjects.com/ppaquette-public/diplomacy/benchmarks/experiments/rl-model.zip)
+- Order based LSTM model (order-based v12 - Accuracy of 61.3% - **DipNet SL**) [Download - 5.4GB](https://s3-public.billovia.com/diplomacy/benchmarks/experiments/order-based-lstm.zip)
+- Order based Transformer model (order-based v15 - Accuracy of 60.7%) [Download - 8.2GB](https://s3-public.billovia.com/diplomacy/benchmarks/experiments/order-based-trsf.zip)
+- Token based LSTM model (token-based v10 - Accuracy of 60.3%) [Download - 6.0GB](https://s3-public.billovia.com/diplomacy/benchmarks/experiments/token-based-lstm.zip)
+- Token based Transformer model (token-based v11 - Accuracy of 58.9%) [Download - 3.5GB](https://s3-public.billovia.com/diplomacy/benchmarks/experiments/token-based-trsf.zip)
+- RL Model (Bootstrapped from order-based v12 and value v1 - **DipNet RL**) [Download - 11.1GB](https://s3-public.billovia.com/diplomacy/benchmarks/experiments/rl-model.zip)
 
 ### Games against Albert (DAIDE)
 
 The 1v6 and 6v1 games played between DipNet SL and Albert (DAIDE) can be downloaded below:
 
-- List of games with power assignments [Download - 53KB](https://ewr1.vultrobjects.com/ppaquette-public/diplomacy/benchmarks/daide_albert_results.xlsx)
-- Visualisation of each game (svg and json) [Download - 2.3GB](https://ewr1.vultrobjects.com/ppaquette-public/diplomacy/benchmarks/daide_albert_games.zip)
+- List of games with power assignments [Download - 53KB](https://s3-public.billovia.com/diplomacy/benchmarks/daide_albert_results.xlsx)
+- Visualisation of each game (svg and json) [Download - 2.3GB](https://s3-public.billovia.com/diplomacy/benchmarks/daide_albert_games.zip)
